@@ -1,0 +1,46 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: reloop
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/reloop?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: none        # schema is owned by Flyway (db/migration). Use "validate" to check mappings.
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 25MB
+
+reloop:
+  jwt:
+    secret: ${JWT_SECRET:}                 # >= 32 chars. If blank a random key is generated at startup (dev only).
+    access-minutes: ${JWT_ACCESS_MINUTES:15}
+    refresh-days: ${JWT_REFRESH_DAYS:7}
+  cookie-secure: ${COOKIE_SECURE:false}    # set true behind HTTPS
+  cors-origins: ${CORS_ORIGINS:http://localhost:5173}
+  seed-demo-data: ${SEED_DEMO_DATA:true}   # demo users + sample lifecycle data. Set false in production.
+  admin:
+    email: ${RELOOP_ADMIN_EMAIL:}
+    password: ${RELOOP_ADMIN_PASSWORD:}
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  public-base-url: ${PUBLIC_BASE_URL:http://localhost:5173}
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+    api-key: ${CLOUDINARY_API_KEY:}
+    api-secret: ${CLOUDINARY_API_SECRET:}
+  razorpay:
+    key-id: ${RAZORPAY_KEY_ID:}
+    key-secret: ${RAZORPAY_KEY_SECRET:}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
